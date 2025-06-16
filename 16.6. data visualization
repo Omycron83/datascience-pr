@@ -1,0 +1,70 @@
+# Load the tidyverse
+library(tidyverse)
+
+
+setwd("~/Documents/TU-Informatik/SS25/PP/analysis_WA/")
+# Read data
+wa_raw <- read_csv("WA.csv")
+
+print(wa_raw)
+
+# Overview of the dataset
+cat("Number of rows:", nrow(wa_raw), "\n")
+cat("Number of columns:", ncol(wa_raw), "\n")
+
+cat("Column names:\n")
+print(colnames(wa_raw))
+
+cat("Data types of each column:\n")
+print(sapply(wa_raw, class))
+
+cat("Summary statistics:\n")
+print(summary(wa_raw))
+
+
+# Create a contingency table
+industry_info_table <- table(wa_raw$IndustryType, wa_raw$InformationType)
+print(industry_info_table)
+
+
+# Optional: Visualize with a heatmap using ggplot2
+library(reshape2)
+industry_info_df <- as.data.frame(industry_info_table)
+print(industry_info_df)
+colnames(industry_info_df) <- c("IndustryType", "InformationType", "Count")
+
+x11()
+corr_industry_infoType_plot <- ggplot(industry_info_df, aes(x = IndustryType, y = InformationType, size = Count)) +
+  geom_point(alpha = 0.7, color = "blue") +
+  labs(title = "Number of Data Breaches with Exposed Data Type by Industry",
+       x = "Industry Type",
+       y = "Information Type") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Print the plot
+print(corr_industry_infoType_plot)
+# Save the plot as a PDF file
+ggsave("corr_industry_infoType_plot.pdf", plot = corr_industry_infoType_plot, width = 10, height = 6)
+
+
+
+# Sum total breaches per IndustryType
+total_breaches_by_industry <- industry_info_df %>%
+  group_by(IndustryType) %>%
+  summarise(TotalBreaches = sum(Count)) %>%
+  arrange(desc(TotalBreaches))
+
+print(total_breaches_by_industry)
+
+# Bar plot of total breaches per IndustryType
+x11()
+breach_bar_plot <- ggplot(total_breaches_by_industry, aes(x = reorder(IndustryType, -TotalBreaches), y = TotalBreaches)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Total Number of Breaches by Industry Type",
+       x = "Industry Type",
+       y = "Total Number of Breaches") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(breach_bar_plot)
+#Save the plot as a PNG file
+ggsave("breach_bar_plot.pdf", plot = breach_bar_plot, width = 6, height = 6)  
