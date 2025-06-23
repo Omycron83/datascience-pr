@@ -129,7 +129,7 @@ plt.savefig("Hypothesis2_Plots/Top10_DataTypes_ByIndustry_Standardized.png")
 # Load second dataset
 df2_raw = pd.read_csv("Kaggle_DB_updated.csv", skiprows=1)
 
-
+print(df2_raw.columns)
 # Rename relevant columns
 df2_raw = df2_raw.rename(columns={
     'records lost': 'records_lost',
@@ -203,8 +203,7 @@ for j in range(i + 1, len(axes)):
 
 plt.tight_layout(rect=[0, 0, 1, 0.95], h_pad=3, w_pad=3)
 plt.suptitle("Records Lost by Data Type and Sector (New Dataset)", fontsize=18)
-os.makedirs("NewData_Plots", exist_ok=True)
-plt.savefig("NewData_Plots/Part3_PerSector.png", bbox_inches='tight')
+plt.savefig("Hypothesis2_Plots/Part3_PerSector.png", bbox_inches='tight')
 plt.show()
 
 # --- PART 4: Standardized Stacked Bar Chart ---
@@ -223,5 +222,5 @@ plt.ylabel("Percentage by Sector")
 plt.xticks(rotation=45, ha='right')
 plt.legend(title='Sector', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
-plt.savefig("NewData_Plots/Part4_Standardized.png")
+plt.savefig("Hypothesis2_Plots/Part4_Standardized.png")
 plt.show()
