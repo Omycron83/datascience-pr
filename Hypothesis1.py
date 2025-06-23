@@ -88,7 +88,7 @@ global_dataset.columns = global_dataset.columns.str.strip()  # remove extra spac
 global_clean = global_dataset.dropna(subset=['sector', 'data sensitivity'])
 
 # Contingency table (raw counts)
-contingency_raw_global = pd.crosstab(global_clean['sector'], global_clean['data sensitivity'])
+contingency_raw_global = pd.crosstab(global_clean['data sensitivity'], global_clean['sector'])
 
 # Chi-Square test
 chi2, p, dof, expected = chi2_contingency(contingency_raw_global)
@@ -103,8 +103,8 @@ print(f"Cramér’s V: {cramers_v:.4f}")
 
 # Normalized heatmap
 contingency_normalized = pd.crosstab(
-    global_clean['sector'],
     global_clean['data sensitivity'],
+    global_clean['sector'],
     normalize='index'
 )
 
@@ -117,11 +117,25 @@ sns.heatmap(
     annot=True,
     fmt=".2f",
     cmap="BuPu",
-    cbar=False
+    cbar=False  # Removes colorbar
 )
-plt.title("Share of Data Sensitivity Types per Sector", fontsize=16, fontweight='bold')
-plt.ylabel("Sector", fontsize=12, fontweight='bold')
-plt.xlabel("Data Sensitivity", fontsize=12, fontweight='bold')
+plt.title("Share of Sector Distribution per Data Sensitivity Level", fontsize=16, fontweight='bold')
+plt.ylabel("Data Sensitivity", fontsize=12, fontweight='bold')
+plt.xlabel("Sector", fontsize=12, fontweight='bold')
 plt.tight_layout()
-plt.savefig("Hypothesis1_Plots/heatmap_global.png")
+plt.savefig("Hypothesis1_Plots/heatmap_global_flipped.png")
 plt.show()
+
+#Bar plots for each sensitivity level
+for sensitivity_level, row in contingency_normalized.iterrows():
+    plt.figure(figsize=(10, 4))
+    row.plot(kind='bar', color='mediumpurple', edgecolor='black')
+
+    plt.title(f"Sector Distribution for Data Sensitivity Level {sensitivity_level}", fontsize=14, fontweight='bold')
+    plt.xlabel("Sector", fontsize=12)
+    plt.ylabel("Proportion", fontsize=12)
+    plt.ylim(0, 1)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    plt.savefig(f"Hypothesis1_Plots/barplot_sensitivity_{sensitivity_level}.png")
+    plt.show()
