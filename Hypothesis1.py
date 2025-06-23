@@ -8,8 +8,10 @@ import os
 # Output folder for plots
 os.makedirs("Hypothesis1_Plots", exist_ok=True)
 
+
+# LOCAL DATASET
 # Loading and Cleaning
-washington_dataset = pd.read_csv("Washington DB.csv")
+washington_dataset = pd.read_csv("Washington_DB.csv")
 df_clean = washington_dataset.dropna(subset=['IndustryType', 'InformationType'])
 
 # Contingency table (raw counts)
@@ -77,3 +79,6 @@ plt.xlabel("Information Type", fontsize=12, fontweight='bold')
 plt.tight_layout()
 plt.savefig("Hypothesis1_Plots/heatmap.png")
 plt.show()
+
+
+#GLOBAL DATASET
