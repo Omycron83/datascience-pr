@@ -82,3 +82,46 @@ plt.show()
 
 
 #GLOBAL DATASET
+# Load and clean
+global_dataset = pd.read_csv("Kaggle_DB_updated.csv")
+global_dataset.columns = global_dataset.columns.str.strip()  # remove extra spaces
+global_clean = global_dataset.dropna(subset=['sector', 'data sensitivity'])
+
+# Contingency table (raw counts)
+contingency_raw_global = pd.crosstab(global_clean['sector'], global_clean['data sensitivity'])
+
+# Chi-Square test
+chi2, p, dof, expected = chi2_contingency(contingency_raw_global)
+print(f"Chi-Square Statistic: {chi2:.2f}")
+print(f"p-value: {p:.12f}")
+
+# Cramér’s V
+n = contingency_raw_global.to_numpy().sum()
+min_dim = min(contingency_raw_global.shape) - 1
+cramers_v = np.sqrt(chi2 / (n * min_dim)) if min_dim > 0 else np.nan
+print(f"Cramér’s V: {cramers_v:.4f}")
+
+# Normalized heatmap
+contingency_normalized = pd.crosstab(
+    global_clean['sector'],
+    global_clean['data sensitivity'],
+    normalize='index'
+)
+
+# Optional: create folder if needed
+os.makedirs("Hypothesis1_Plots", exist_ok=True)
+
+plt.figure(figsize=(14, 8))
+sns.heatmap(
+    contingency_normalized,
+    annot=True,
+    fmt=".2f",
+    cmap="BuPu",
+    cbar=False
+)
+plt.title("Share of Data Sensitivity Types per Sector", fontsize=16, fontweight='bold')
+plt.ylabel("Sector", fontsize=12, fontweight='bold')
+plt.xlabel("Data Sensitivity", fontsize=12, fontweight='bold')
+plt.tight_layout()
+plt.savefig("Hypothesis1_Plots/heatmap_global.png")
+plt.show()
