@@ -2,8 +2,11 @@ import pandas as pd
 df = pd.read_csv("Kaggle_DB.csv")
 df = df.drop(index=0)
 
+
+## GLOBAL
 # Replace all exact matches of 'financial' with 'finance' in the 'sector' column
 df['sector'] = df['sector'].replace('financial', 'Finance')
+df['sector'] = df['sector'].replace('finance', 'Finance')
 df['sector'] = df['sector'].replace('academic', 'Education')
 df['sector'] = df['sector'].astype(str).apply(lambda x: 'Government' if 'government' in x else x)
 df['sector'] = df['sector'].astype(str).apply(lambda x: 'military' if 'military' in x else x)
@@ -21,3 +24,6 @@ df['sector'] = df['sector'].astype(str).apply(
 df = df[~df['sector'].isin(['military', 'other'])]
 df.loc[df['sector'].str.strip().str.lower() == 'health', 'sector'] = 'Health'
 df.to_csv("Kaggle_DB_updated.csv", index=False)
+print(df['sector'].sort_values().unique())
+## LOCAL
+df = pd.read_csv("Washington_DB.csv")
