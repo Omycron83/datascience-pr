@@ -47,7 +47,7 @@ colors = ['crimson' if info in highlight else 'gray' for info in top10_info_coun
 plt.figure(figsize=(10, 6))
 sns.barplot(data=top10_info_counts, y='InformationType', x='Count', palette=colors)
 
-plt.title('Top 10 Most Exposed Information Types')
+plt.title('Top 10 Most Exposed Information Types', fontsize=20)
 plt.xlabel('Number of Breaches')
 plt.ylabel('Information Type')
 plt.tight_layout()
@@ -87,7 +87,7 @@ colors = ['crimson' if dtype in highlight else 'gray' for dtype in sensitivity_c
 plt.figure(figsize=(10, 6))
 sns.barplot(data=sensitivity_counts, y='DataType', x='Count', palette=colors)
 
-plt.title('Frequency of Leaked Data Types (Kaggle Dataset)', fontsize=14)
+plt.title('Frequency of Leaked Data Types (Kaggle Dataset)', fontsize=20)
 plt.xlabel('Number of Breaches')
 plt.ylabel('Data Type')
 plt.tight_layout()
