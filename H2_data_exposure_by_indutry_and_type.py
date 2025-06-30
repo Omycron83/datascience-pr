@@ -94,38 +94,40 @@ for industry in industries_sorted:
     #plt.show()
 
 
-# --- Part 2: Standardized Top 10 by Industry in Washington ---
+# --- Part 2: Standardized Top 10 by Industry in Washington (MODIFIED AXIS & COLORS) ---
 # Total per data type
 total_by_info = df_clean.groupby('InformationType')['WashingtoniansAffected'].sum().sort_values(ascending=False)
 top10_info_types = total_by_info.head(10).index.tolist()
 filtered = df_clean[df_clean['InformationType'].isin(top10_info_types)]
 
-# Group and pivot
-grouped_top10 = filtered.groupby(['InformationType', 'IndustryType'])['WashingtoniansAffected'].sum().unstack(fill_value=0)
+# Group and pivot: now pivot so sector is index
+grouped_top10 = filtered.groupby(['IndustryType', 'InformationType'])['WashingtoniansAffected'].sum().unstack(fill_value=0)
 grouped_percent = grouped_top10.div(grouped_top10.sum(axis=1), axis=0) * 100
-grouped_percent = grouped_percent.loc[top10_info_types]
 
-# Rename x-axis labels
-new_labels = [info_type_renames.get(info, info) for info in grouped_percent.index]
-grouped_percent.index = new_labels
+# Restrict to sectors that reported top 10 types
+grouped_percent = grouped_percent.loc[industries_sorted]
 
-# Sort columns to match order of colors
-grouped_percent = grouped_percent[industries_sorted]
+# Rename columns (data types)
+new_columns = [info_type_renames.get(info, info) for info in grouped_percent.columns]
+grouped_percent.columns = new_columns
 
-# Get color list in correct order
-color_list = [bar_colors[ind] for ind in industries_sorted]
+# Use consistent color palette for info types
+info_type_list = grouped_percent.columns.tolist()
+info_colors = {info: colorblind_palette[i % len(colorblind_palette)] for i, info in enumerate(info_type_list)}
+color_list = [info_colors[info] for info in info_type_list]
 
 # Plot
 grouped_percent.plot(kind='bar', stacked=True, figsize=(12, 8), color=color_list)
 
-plt.title("Top 10 Leaked Data Types (Standardized %) in Washington", fontsize=16)
-plt.xlabel("Data Type Leaked")
-plt.ylabel("Percentage by Industry")
+plt.title("Standardized % of Top 10 Data Types by Industry (Washington)", fontsize=16)
+plt.xlabel("Industry Type")
+plt.ylabel("Percentage by Data Type")
 plt.xticks(rotation=45, ha='right')
-plt.legend(title='Industry Type', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.legend(title='Data Type', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
-plt.savefig("Hypothesis2_Plots/H2_Standardized_Washington.png")
+plt.savefig("Hypothesis2_Plots/H2_Standardized_Washington_Modified.png")
 #plt.show()
+
 
 ## ------ PART 3 & 4 DATASET ------
 
@@ -147,11 +149,11 @@ df2_clean = df2_clean.dropna(subset=['records lost'])
 
 # Map sensitivity to readable names
 sensitivity_map = {
-    "1": "Email / Online Info",
-    "2": "SSN / Personal",
-    "3": "Credit Card",
-    "4": "Health / Personal",
-    "5": "Full Details"
+    "1": "Email / Online Info (1.0)",
+    "2": "SSN / Personal (2.0)",
+    "3": "Credit Card (3.0)",
+    "4": "Health / Personal (4.0)",
+    "5": "Full Details (5.0)"
 }
 
 mapped = (
@@ -218,30 +220,28 @@ grouped = df2_clean.groupby(['sector', 'data sensitivity'])['records lost'].sum(
 #     plt.show()
 
 
-# --- PART 4: Standardized % by Data Type across sectors ---
+# --- PART 4: Standardized % by Sector (MODIFIED AXIS & COLORS) ---
 
-pivot_table = grouped.pivot(index='data sensitivity', columns='sector', values='records lost').fillna(0)
-
-# Call infer_objects() to fix future downcasting warnings
+pivot_table = grouped.pivot(index='sector', columns='data sensitivity', values='records lost').fillna(0)
 pivot_table = pivot_table.infer_objects()
-
-# Calculate percentages by **row** (i.e., per data type sum across all sectors = 100%)
 pivot_percent = pivot_table.div(pivot_table.sum(axis=1), axis=0) * 100
 
-# Order rows by sensitivity_map values for consistent display
+# Ensure consistent column order based on sensitivity_map values
 info_order = list(sensitivity_map.values())
-pivot_percent = pivot_percent.loc[info_order]
+pivot_percent = pivot_percent[info_order]
 
-# Build color list for sectors
-color_list = [sector_colors[sec] for sec in pivot_percent.columns]
+# Color palette by data type
+info_colors = {info: tol_colors[i % len(tol_colors)] for i, info in enumerate(info_order)}
+color_list = [info_colors[info] for info in info_order]
 
+# Plot
 pivot_percent.plot(kind='bar', stacked=True, figsize=(12, 8), color=color_list)
 
-plt.title("Leaked Data Types (Standardized %) (Worldwide)", fontsize=16)
-plt.xlabel("Data Type")
-plt.ylabel("% by Sector")
+plt.title("Leaked Data Types by Sector (Standardized %, Worldwide)", fontsize=16)
+plt.xlabel("Sector")
+plt.ylabel("% by Data Type")
 plt.xticks(rotation=45, ha='right')
-plt.legend(title='Sector', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.legend(title='Data Type', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
-plt.savefig("Hypothesis2_Plots/H2_Standardized_Worldwide.png")
+plt.savefig("Hypothesis2_Plots/H2_Standardized_Worldwide_Modified.png")
 #plt.show()
