@@ -126,7 +126,8 @@ plt.tight_layout()
 plt.savefig("Hypothesis1_Plots/heatmap_global_flipped.png")
 plt.show()
 
-#Bar plots for each sensitivity level
+
+
 for sensitivity_level, row in contingency_normalized.iterrows():
     plt.figure(figsize=(10, 4))
     row.plot(kind='bar', color='mediumpurple', edgecolor='black')
