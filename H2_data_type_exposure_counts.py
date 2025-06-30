@@ -48,6 +48,6 @@ plt.title('Top 10 Most Exposed Information Types with Highlights')
 plt.xlabel('Number of Breaches')
 plt.ylabel('Information Type')
 plt.tight_layout()
-plt.savefig("Hypothesis2_Plots/H2_Data_type_exposure_counts.png")
+plt.savefig("Hypothesis2_Plots/Test_H2_Data_type_exposure_counts.png")
 plt.show()
 
