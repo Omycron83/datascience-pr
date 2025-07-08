@@ -126,17 +126,46 @@ plt.tight_layout()
 plt.savefig("Hypothesis1_Plots/heatmap_global_flipped.png")
 plt.show()
 
+colorblind_palette = [
+    "#4477AA",  # blue
+    "#EE6677",  # reddish pink
+    "#228833",  # green
+    "#CCBB44",  # mustard yellow
+    "#66CCEE",  # sky blue
+]
 
+# Your mapping of sensitivity level names to short info types
+# Proper float-based mapping
+info_type_titles = {
+    1.0: "Email / Online Info",
+    2.0: "SSN / Personal details",
+    3.0: "Credit Card",
+    4.0: "Health Records",
+    5.0: "Full Details"
+}
 
-for sensitivity_level, row in contingency_normalized.iterrows():
+for (sensitivity_level, row), color in zip(contingency_normalized.iterrows(), colorblind_palette):
     plt.figure(figsize=(10, 4))
-    row.plot(kind='bar', color='mediumpurple', edgecolor='black')
+    (row * 100).plot(
+        kind='bar',
+        color=color,
+        edgecolor='black'
+    )
 
-    plt.title(f"Sector Distribution for Data Sensitivity Level {sensitivity_level}", fontsize=14, fontweight='bold')
+    info_type = info_type_titles.get(sensitivity_level, "")
+
+    plt.title(
+        f"Sector Distribution for Data Sensitivity Level {sensitivity_level} - {info_type}",
+        fontsize=14, fontweight='bold'
+    )
     plt.xlabel("Sector", fontsize=12)
-    plt.ylabel("Proportion", fontsize=12)
-    plt.ylim(0, 1)
+    plt.ylabel("Percentage (%)", fontsize=12)
+    plt.ylim(0, 100)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.savefig(f"Hypothesis1_Plots/barplot_sensitivity_{sensitivity_level}.png")
+
+    # Make filename safe
+    safe_name = str(sensitivity_level).replace(".", "_")
+    plt.savefig(f"Hypothesis1_Plots/barplot_sensitivity_{safe_name}.png")
     plt.show()
+
