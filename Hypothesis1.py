@@ -137,7 +137,7 @@ colorblind_palette = [
 # Your mapping of sensitivity level names to short info types
 # Proper float-based mapping
 info_type_titles = {
-    1.0: "Email / Online Info",
+    1.0: "Email / Online Information",
     2.0: "SSN / Personal details",
     3.0: "Credit Card",
     4.0: "Health Records",
