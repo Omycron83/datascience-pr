@@ -158,11 +158,12 @@ for (sensitivity_level, row), color in zip(contingency_normalized.iterrows(), co
         f"Sector Distribution for Data Sensitivity Level {sensitivity_level} - {info_type}",
         fontsize=14, fontweight='bold'
     )
-    plt.xlabel("Sector", fontsize=12)
-    plt.ylabel("Percentage (%)", fontsize=12)
+    plt.xlabel("Sector", fontsize=12, fontweight='bold')
+    plt.ylabel("Percentage (%)", fontsize=12, fontweight='bold')
     plt.ylim(0, 100)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
+    plt.xticks(fontsize=10.5, fontweight='bold')
 
     # Make filename safe
     safe_name = str(sensitivity_level).replace(".", "_")
