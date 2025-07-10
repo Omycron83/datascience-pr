@@ -3,52 +3,54 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # -----------------------------------------------------
-# How does records lost vary by data sensitivity?
+# How do records lost vary by method?
 # -----------------------------------------------------
 
-# Load the dataset (replace 'your_data.csv' with your actual file path)
+# Load the dataset
 df = pd.read_csv('Kaggle_DB_updated.csv')
 
 # Clean and preprocess
-def parse_records(val):
-    if pd.isnull(val):
-        return None
-    val = str(val).replace(',', '').strip().lower()
-    if 'm' in val:
-        return int(val.replace('m', '')) * 1_000_000
-    try:
-        return int(val)
-    except ValueError:
-        return None
-
-#df['records lost'] = df['records lost']#.apply(parse_records)
+df = df.dropna(subset=['records lost', 'method'])
 df['records lost'] = df['records lost'].str.replace(',', '', regex=False).astype(int)
-df['data sensitivity'] = pd.to_numeric(df['data sensitivity'], errors='coerce')
+df['method'] = df['method'].str.strip()
+df['method'] = df['method'].replace('poor security ', 'poor security')
+df['method'] = df['method'].replace('lost device ', 'lost device')
 
-# Drop rows with missing required values
-df = df.dropna(subset=['records lost', 'data sensitivity'])
-
-# Ensure data sensitivity is integer and limited to 1-5
-df = df[df['data sensitivity'].isin([1, 2, 3, 4, 5])]
-df['data sensitivity'] = df['data sensitivity'].astype(int)
-
-# Create box plot
-plt.figure(figsize=(10, 6))
+# -----------------------------------------------------
+# Separate box-plot for Each Method (using FacetGrid)
+# -----------------------------------------------------
+# Plot box plot of records lost by method
+plt.figure(figsize=(12, 6))
 sns.boxplot(
-    x='data sensitivity',
-    y='records lost',
     data=df,
+    x='method',
+    y='records lost',
     palette='pastel'
 )
-plt.yscale('log')
-plt.xlabel('Data Sensitivity (1=Low, 5=High)', fontsize=14)
-plt.ylabel('Records Lost', fontsize=14)
-#plt.xticks(rotation=0)
-plt.title('Distribution of Records Lost by Data Sensitivity Level', fontsize=16)
+plt.yscale('log')  # Log scale to handle skew
+plt.xlabel('Breach Method', fontsize=14)
+plt.ylabel('Records Lost (log scale)', fontsize=14)
+plt.title('Distribution of Records Lost by Breach Method', fontsize=16)
+plt.xticks(rotation=45)
 plt.tight_layout()
 
-plt.savefig("./Hypothesis4_Plots/records_sensitivity.svg")
+# Save the plot
+plt.savefig("Hypothesis4/Hypothesis4_Plots/records_lost_by_method_boxplot.svg")
+plt.show()
 
 # -----------------------------------------------------
-# What best predicts the way a breach is induced?
+# Number of Breaches by Method (Count Plot)
 # -----------------------------------------------------
+plt.figure(figsize=(10, 6))
+sns.countplot(
+    data=df,
+    y='method',
+    order=df['method'].value_counts().index,
+    palette='pastel'
+)
+plt.xlabel('Number of Breaches', fontsize=14)
+plt.ylabel('Breach Method', fontsize=14)
+plt.title('Number of Breaches by Method', fontsize=16)
+plt.tight_layout()
+plt.savefig("Hypothesis4/Hypothesis4_Plots/breach_counts_by_method.svg")
+plt.show()
