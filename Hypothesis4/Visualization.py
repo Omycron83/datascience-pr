@@ -16,6 +16,25 @@ df['method'] = df['method'].str.strip()
 df['method'] = df['method'].replace('poor security ', 'poor security')
 df['method'] = df['method'].replace('lost device ', 'lost device')
 
+# Count methods in descending order
+ordered_methods = df['method'].value_counts().index.tolist()
+
+colorblind_palette = [
+    "#4477AA",  # blue
+    "#EE6677",  # reddish pink
+    "#228833",  # green
+    "#CCBB44",  # mustard yellow
+    "#66CCEE",  # sky blue
+    "#AA3377",  # purple
+    "#BBBBBB"   # gray
+]
+
+# Consistent mapping: method name → color
+method_to_color = {
+    method: colorblind_palette[i % len(colorblind_palette)]
+    for i, method in enumerate(ordered_methods)
+}
+
 # -----------------------------------------------------
 # Separate box-plot for Each Method (using FacetGrid)
 # -----------------------------------------------------
@@ -25,8 +44,7 @@ sns.boxplot(
     data=df,
     x='method',
     y='records lost',
-    palette='pastel'
-)
+    palette=method_to_color)
 plt.yscale('log')  # Log scale to handle skew
 plt.xlabel('Breach Method', fontsize=14)
 plt.ylabel('Records Lost (log scale)', fontsize=14)
@@ -45,9 +63,8 @@ plt.figure(figsize=(10, 6))
 sns.countplot(
     data=df,
     y='method',
-    order=df['method'].value_counts().index,
-    palette='pastel'
-)
+    order=ordered_methods,  # maintain order
+    palette=method_to_color)
 plt.xlabel('Number of Breaches', fontsize=14)
 plt.ylabel('Breach Method', fontsize=14)
 plt.title('Number of Breaches by Method', fontsize=16)
