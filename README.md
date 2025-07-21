@@ -1,7 +1,12 @@
 # Content
 
+## Motivation
+
+Nowadays in an age where everything - from health insurance information to university registration - is being digitalized, its hard to not 
+come across one so common occurance: data breaches. With over 350M records exposed in the US alone in 2023, data breaches pose a large threat both to the individuals as well as the organizations affected. However, while the occurance is ubiquitous, reporting often overfocuses on the scale rather than the quality of the data exposed, and seems to mostly disregard the interplay with other factors such as industry-specific risks that are specifically of interest to those with executive power.
+
 ## Introduction:
-This project is supposed to showcase the results of our discussion of the question:
+More specifically, this project is supposed to showcase the results of our discussion of the question:
 **'What personal information is most commonly exposed during data breaches, and how does this exposure vary across different industries?'** as part of the programming project: data science in python and R at the SoSe 25 at TU-Berlin.
 
 ## Data
@@ -130,5 +135,32 @@ which will then also interactively visualize the results in a seperate window as
 You will note that we already have the (generally preprocessed) data from the global dataset included here, which is referenced in its updated form in all applicable scripts. However, in order to understand the cleanup from the non-tidy original file, you can refer to the 
 `/data/Datasets_Cleaning.py` 
 script for more information.
+
+
+# Results
+After running the visualizations for the different hypothesis, here is what you should roughly expect:
+
+## Hypothesis 1
+Hypothesis 1 analyzed the data sensitivity across sectors. The main result of this section is given  
+by these individual plots:
+![alt text](image.png)
+As you can see, the distribution of data sensitivity by sector follows a clear path, with e.g. health records being most often exposed in business and health-sector related organizations. On the other hand, sectors such as education seem to have a larger prevalence in medium-sensitivity prevalence while not being likely to expose very sensitive information.
+## Hypothesis 2
+In hypothesis 2, we had a closer look at the prevalence that certain details are exposed with. In the main finding, we found that common details such as name, social security number and date of birth are most often exposed, while dedicated security-related details such as email- and password logins are one of the least exposed data information types.
+![alt text](image-1.png)
+## Hypothesis 3
+Hypothesis 3 was all about the total-number of breaches-items (measured in both actual number of breaches and affected individuals) relating to the sector. Two of the most important results can be seen here: 
+![alt text](image-2.png)
+As you can probably tell, the total number of breaches is by far highest in business-organizations. However, looking at the number of people affected, we can see health organizations even slightly surpassing the business figure. This indicates that while businesses are more common and more likely to leak information, health information leaks are, though less common, larger in scale when they do occur.
+## Hypothesis 4
+Moving on to the final hypothesis, we firstly have a similar statistic, however now relating specifically to the method used for breaches:
+![alt text](image-3.png)
+As we can see, being hacked is not only the most common reason for a data breach, but also the one most devastating. Thus, organizations are most likely to be exposed to hacking in most of all cases. However, taking this method out of the equation, we are left with less clear of an analysis. This motivates our final visualization given by a decision tree that allows you to gauge the personal risk profile for the most likely exposure methods given three simply assessible features:
+![alt text](image-4.png)
+
+## Conclusion & Discussion
+So, in conclusion, exposure to data breaches is far from random. In fact, there appear to be specific trends tying escpecially certain sector clusters to to certain types and sensitivity levels of data involved. Furthermore, data breaches seem to be roughly uniform accross country borders, as the same trends observed in the local datasets are also prevalent in the global one. Furthermore, its very possible to access individual risk levels to certain exposure methods by the very simple heuristic provided, which we encourage key decision makers to use and expand on. Targeted awereness and security audits, while maybe seeming like redundant compliance-bs, do serve an important use case in practice and should be taken advantage of regularly. 
+
+However, this obviously does not encompass a complete overview of the trends that can be observed regarding this subject. There is still a lack of data from the attacker perspective as well as scope differences between local and global datasets available. 
 
 If you have any further questions, suggestions or want to contribute, write me a message or create an issue :)
