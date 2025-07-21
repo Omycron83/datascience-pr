@@ -36,36 +36,61 @@ The outputs can then be found in a subdirectory of each hypothesis.
 
 ## Project Structure
 
-datascience-pr/
-│
-├── Datasets_Cleaning.py # Script for cleaning and preprocessing datasets
-├── Kaggle_DB.csv # Original Kaggle dataset
-├── Kaggle_DB_updated.csv # Cleaned/processed Kaggle dataset
-├── Washington_DB.csv # Washington dataset
-│
-├── Hypothesis1/
-│ ├── Hypothesis1.py # Analysis for Hypothesis 1
-│ └── Hypothesis1_Plots/ # Visualizations for Hypothesis 1
-│
-├── Hypothesis2/
-│ ├── DataExplosure.py # Exposure data analysis
-│ ├── ExposureIndustry.py # Industry-wise exposure analysis
-│ └── Hypothesis2_Plots/ # Visualizations for Hypothesis 2
-│
-├── Hypothesis3/
-│ ├── kaggle.py # Kaggle-related analysis
-│ ├── WA.py # Washington-related analysis
-│ └── Hypothesis3_Plots/ # Visualizations for Hypothesis 3
-│
-├── Hypothesis4/
-│ ├── DecisionTree.py # Decision tree model
-│ ├── Visualization.py # Visualizations for Hypothesis 4
-│ └── Hypothesis4_Plots/ # Plots for Hypothesis 4
-│
-├── generate_all_plots.py # Script to generate all plots across hypotheses
-├── requirements.txt # Python dependencies
-├── .gitignore # Files/directories to ignore in version control
-└── README.md # Project overview and documentation
+## 📁 Data Directory
+```
+data/
+├── 📄 Datasets_Cleaning.py          # Data preprocessing and cleaning utilities
+├── 📊 Kaggle_DB_updated.csv         # Updated Kaggle database dataset
+├── 📊 Kaggle_DB.csv                 # Original Kaggle database dataset
+└── 📊 Washington_DB.csv             # Washington database dataset
+```
+*Contains raw and processed datasets along with cleaning scripts*
+
+## 🧪 Hypothesis Testing Modules
+
+### Hypothesis 1
+```
+Hypothesis1/
+├── 📊 Hypothesis1_Plots/            # Generated plots and visualizations
+└── 📄 Hypothesis1.py                # Main analysis script
+```
+
+### Hypothesis 2
+```
+Hypothesis2/
+├── 📊 Hypothesis2_Plots/            # Generated plots and visualizations
+├── 📄 DataExposure.py               # Data exposure analysis
+└── 📄 ExposureIndustry.py           # Industry-specific exposure analysis
+```
+
+### Hypothesis 3
+```
+Hypothesis3/
+├── 📊 Hypothesis3_Plots/            # Generated plots and visualizations
+├── 📄 kaggle.py                     # Kaggle data analysis
+└── 📄 WA.py                         # Washington data analysis
+```
+
+### Hypothesis 4
+```
+Hypothesis4/
+├── 📊 Hypothesis4_Plots/            # Generated plots and visualizations
+├── 📄 DecisionTree.py               # Decision tree implementation
+└── 📄 Visualization.py              # Data visualization utilities
+```
+
+## 🛠️ Environment & Configuration
+```
+venv/                            # Python virtual environment
+.gitignore                       # Git ignore rules
+generate_all_plots.py            # Batch plot generation script
+```
+
+## 📚 Documentation
+```
+📄 README.md                         # Project documentation
+📄 requirements.txt                  # Python dependencies
+```
 
 ## Setting up the environment
 
