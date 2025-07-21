@@ -1,3 +1,9 @@
+# ---------------------------------------------------------
+# Data Cleaning Script for Kaggle and Washington State Data Breaches
+# This script cleans and processes data from Kaggle and Washington State datasets,
+# focusing on standardizing sector names and removing unwanted entries.
+# ---------------------------------------------------------
+
 import pandas as pd
 df = pd.read_csv("Kaggle_DB.csv")
 df = df.drop(index=0)
@@ -24,10 +30,8 @@ df['sector'] = df['sector'].astype(str).apply(
 df = df[~df['sector'].isin(['military', 'other'])]
 df.loc[df['sector'].str.strip().str.lower() == 'health', 'sector'] = 'Health'
 df.to_csv("Kaggle_DB_updated.csv", index=False)
-#print(df['sector'].sort_values().unique())
 
 ## LOCAL
 df = pd.read_csv("Washington_DB.csv")
 df = df[df['IndustryType'] != 'Non-Profit/Charity']
 df.to_csv("Washington_DB.csv", index=False)
-

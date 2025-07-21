@@ -1,4 +1,6 @@
 venv/
 __pycache__/
-data/
 Hypothesis4/Hypothesis4_Plots/
+Hypothesis3/Hypothesis3_Plots/
+Hypothesis2/Hypothesis2_Plots/
+Hypothesis1/Hypothesis1_Plots/
