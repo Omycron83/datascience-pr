@@ -2,18 +2,18 @@
 
 ## Introduction:
 This project is supposed to showcase the results of our discussion of the question:
-'What personal information is most commonly exposed during data breaches, and how does this exposure vary across different industries?' as part of the programming project: data science in python and R at the SoSe 25 at TU-Berlin.
+**'What personal information is most commonly exposed during data breaches, and how does this exposure vary across different industries?'** as part of the programming project: data science in python and R at the SoSe 25 at TU-Berlin.
 
 ## Data
-Our analysis of the 4 hypothesis that make up our question is based on 2 complementary datasets:
-a local, detailed and well structured dataset from the washington attorney generals office
-and a broader, less detailed one compiled by volunteers given by the David McCandless Dataset that
+Our analysis of the 4 hypothesis that make up our question is **based on 2 complementary datasets**:
+a local, detailed and well structured dataset from the **washington attorney generals office**
+and a broader, less detailed one compiled by volunteers given by the **David McCandless Dataset** that
 we used to verify trends and draw comparisons.
 
-Most of our analysis use the sector of the breached organization as an independent variable for both datasets.
+Most of our analysis use the sector of the **breached organization as an independent variable** for both datasets.
 The further dependent variables do differ however:
-- In the attorney generals' dataset, we draw conclusions from the type of personal information exposed as well as the affected number of individuals
-- And in the global dataset, we use data sensitivity, the number of records lost as well as the method used for the breach
+- In the attorney generals' dataset, we draw conclusions from the **type of personal information exposed** as well as the **affected number of individuals**
+- And in the global dataset, we use **data sensitivity**, **the number of records lost** as well as the **method used for the breach**
 
 ## Hypothesis:
 Here is an overview of the hypothesis, in order:
@@ -94,7 +94,7 @@ generate_all_plots.py            # Batch plot generation script
 
 ## Setting up the environment
 
-Its strongly recommended to set-up this project through a python virtual environment (conda or uv is obviously fine as well, though we won't include intructions for that here). This especially prevents issues with the version control of certain libraries between projects.
+Its **strongly** recommended to set-up this project through a python virtual environment (conda or uv is obviously fine as well, though we won't include intructions for that here). This especially prevents issues with the version control of certain libraries between projects.
 
 In order to run this, you will need Python 3.7 and upwards installed. If you don't have that, there are numerous instructions on how to install the most popular programming language in your operating system online.
 
